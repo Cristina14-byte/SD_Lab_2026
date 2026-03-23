@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #f0f4f8;"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.chris.sd_assignment1.controller.CartController">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #2c3e50;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+            </padding>
+            <Label text="Your Shopping Cart" textFill="#f39c12">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Back to Shop" onAction="#onBackToShopClick"
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-cursor: hand;" />
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+            </padding>
+
+            <TableView fx:id="cartTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="nameCol" text="Item Name" prefWidth="350.0" />
+                    <TableColumn fx:id="unitPriceCol" text="Unit Price" prefWidth="150.0" />
+                    <TableColumn fx:id="quantityCol" text="Quantity" prefWidth="150.0" />
+                    <TableColumn fx:id="totalPriceCol" text="Total Price" prefWidth="150.0" />
+                </columns>
+            </TableView>
+
+            <HBox alignment="CENTER_RIGHT" spacing="20.0">
+                <Button text="Remove Selected" onAction="#onRemoveItemClick"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="Total Amount:" textFill="#2c3e50">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="grandTotalLabel" text="€0.00" textFill="#e74c3c">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+                <Button text="Checkout" onAction="#onCheckoutClick" prefHeight="45.0" prefWidth="150.0"
+                        style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

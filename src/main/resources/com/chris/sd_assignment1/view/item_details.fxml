@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<HBox spacing="25.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #f0f4f8;"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.chris.sd_assignment1.controller.ItemDetailsController">
+
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+
+    <VBox alignment="TOP_CENTER" minWidth="220.0" spacing="15.0">
+        <ImageView fx:id="itemImageView" fitHeight="280.0" fitWidth="220.0" preserveRatio="true"
+                   style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);" />
+    </VBox>
+
+    <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+        <Label fx:id="nameLabel" text="Item Name" textFill="#2c3e50" wrapText="true">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+
+        <Label fx:id="categoryLabel" text="Category: " textFill="#7f8c8d">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+
+        <Separator prefWidth="200.0" />
+
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label fx:id="basePriceLabel" text="€0.00" textFill="#95a5a6" style="-fx-strikethrough: true;">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label fx:id="finalPriceLabel" text="€0.00" textFill="#e74c3c">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+            </Label>
+            <Label fx:id="discountLabel" text="(0% OFF)" textFill="#2ecc71" visible="false">
+                <font>
+                    <Font name="System Bold" size="16.0" />
+                </font>
+            </Label>
+        </HBox>
+
+        <Label fx:id="stockLabel" text="Stock available: 0" textFill="#34495e">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+
+        <TextArea fx:id="descriptionArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS"
+                  style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" />
+
+        <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <Label text="Quantity:" textFill="#2c3e50">
+                <font>
+                    <Font name="System Bold" size="16.0" />
+                </font>
+            </Label>
+            <Spinner fx:id="quantitySpinner" prefWidth="80.0" />
+            <Button text="Add to Cart" onAction="#onAddToCartClick" prefHeight="40.0" prefWidth="150.0"
+                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
+        </HBox>
+    </VBox>
+
+</HBox>

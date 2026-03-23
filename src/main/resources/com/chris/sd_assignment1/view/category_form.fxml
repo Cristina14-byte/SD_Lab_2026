@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15.0" prefHeight="350.0" prefWidth="400.0"
+      style="-fx-background-color: #f0f4f8;"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.chris.sd_assignment1.controller.CategoryFormController">
+
+    <padding>
+        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="formTitle" text="Add Category" textFill="#2c3e50">
+        <font>
+            <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+
+    <Separator prefWidth="200.0" />
+
+    <VBox spacing="8.0" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+        <Label text="Category Name:" textFill="#34495e" />
+        <TextField fx:id="nameField" promptText="Name..." />
+
+        <Label text="Description:" textFill="#34495e" />
+        <TextArea fx:id="descriptionField" promptText="Description..." wrapText="true" VBox.vgrow="ALWAYS" />
+    </VBox>
+
+    <HBox spacing="15.0" alignment="CENTER">
+        <Button text="Save" onAction="#onSaveClick" prefWidth="100.0"
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
+        <Button text="Cancel" onAction="#onCancelClick" prefWidth="100.0"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" />
+    </HBox>
+
+</VBox>

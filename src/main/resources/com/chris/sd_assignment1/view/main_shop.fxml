@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #f0f4f8;"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.chris.sd_assignment1.controller.MainShopController">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #2c3e50;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+            </padding>
+            <Label text="Icey's TCG Shop" textFill="#3498db">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="welcomeLabel" text="Welcome, User!" textFill="WHITE">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Label>
+            <Button fx:id="adminPanelButton" text="Admin Panel" visible="false" managed="false"
+                    onAction="#onAdminPanelClick"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" />
+            <Button text="Cart" onAction="#onCartClick"
+                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-cursor: hand;" />
+            <Button text="Logout" onAction="#onLogoutClick"
+                    style="-fx-background-color: transparent; -fx-text-fill: #bdc3c7; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-cursor: hand;" />
+        </HBox>
+    </top>
+
+    <left>
+        <VBox spacing="15.0" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-width: 0 1 0 0;" prefWidth="250.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <Label text="Search &amp; Filter" textFill="#2c3e50">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Label>
+
+            <Label text="Search Name:" textFill="#34495e" />
+            <TextField fx:id="searchField" promptText="Card name..." />
+
+            <Label text="Category:" textFill="#34495e" />
+            <ComboBox fx:id="categoryComboBox" promptText="All Categories" maxWidth="Infinity" />
+
+            <Label text="Sort By:" textFill="#34495e" />
+            <ComboBox fx:id="sortComboBox" promptText="Default" maxWidth="Infinity" />
+
+            <Button text="Clear Filters" maxWidth="Infinity" onAction="#onClearFiltersClick"
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-cursor: hand;" />
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <FlowPane fx:id="itemsContainer" hgap="20.0" vgap="20.0" />
+        </ScrollPane>
+    </center>
+
+</BorderPane>

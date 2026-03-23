@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15.0" prefHeight="650.0" prefWidth="450.0"
+      style="-fx-background-color: #f0f4f8;"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.chris.sd_assignment1.controller.RegisterController">
+
+    <padding>
+        <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+    </padding>
+
+    <Label text="Join Icey's" textFill="#2c3e50">
+        <font>
+            <Font name="System Bold" size="28.0" />
+        </font>
+    </Label>
+
+    <Separator prefWidth="200.0" />
+
+    <VBox spacing="8.0" alignment="CENTER_LEFT">
+        <Label text="Username:" textFill="#34495e" />
+        <TextField fx:id="usernameField" promptText="Enter your username..."
+                   style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" />
+
+        <Label text="Email Address:" textFill="#34495e" />
+        <TextField fx:id="emailField" promptText="Enter your email..."
+                   style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" />
+
+        <Label text="Phone Number:" textFill="#34495e" />
+        <TextField fx:id="phoneField" promptText="Enter your phone number..."
+                   style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" />
+
+        <Label text="Password:" textFill="#34495e" />
+        <PasswordField fx:id="passwordField" promptText="Enter password..."
+                       style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" />
+
+        <Label text="Confirm Password:" textFill="#34495e" />
+        <PasswordField fx:id="confirmPasswordField" promptText="Repeat password..."
+                       style="-fx-background-radius: 5; -fx-border-color: #bdc3c7; -fx-border-radius: 5;" />
+    </VBox>
+
+    <Button fx:id="registerButton" maxWidth="Infinity" onAction="#onRegisterButtonClick"
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"
+            text="Create Account" />
+
+    <Button onAction="#onBackToLoginClick"
+            style="-fx-background-color: transparent; -fx-text-fill: #7f8c8d; -fx-cursor: hand;"
+            text="Back to Login" />
+
+</VBox>

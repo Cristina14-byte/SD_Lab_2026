@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15.0" prefHeight="750.0" prefWidth="450.0"
+      style="-fx-background-color: #f0f4f8;"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.chris.sd_assignment1.controller.ItemFormController">
+
+    <padding>
+        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="formTitle" text="Add Item" textFill="#2c3e50">
+        <font>
+            <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+
+    <Separator prefWidth="200.0" />
+
+    <VBox spacing="8.0" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+        <Label text="Name:" textFill="#34495e" />
+        <TextField fx:id="nameField" promptText="Item name..." />
+
+        <HBox spacing="10.0">
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                <Label text="Category:" textFill="#34495e" />
+                <ComboBox fx:id="categoryComboBox" promptText="Select Category" maxWidth="Infinity" />
+            </VBox>
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                <Label text="Release Date:" textFill="#34495e" />
+                <DatePicker fx:id="releaseDatePicker" promptText="Select Date" maxWidth="Infinity" />
+            </VBox>
+        </HBox>
+
+        <HBox spacing="10.0">
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                <Label text="Base Price (€):" textFill="#34495e" />
+                <TextField fx:id="priceField" promptText="0.00" />
+            </VBox>
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                <Label text="Discount (%):" textFill="#34495e" />
+                <TextField fx:id="discountField" promptText="0" />
+            </VBox>
+            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                <Label text="Stock Quantity:" textFill="#34495e" />
+                <TextField fx:id="stockField" promptText="0" />
+            </VBox>
+        </HBox>
+
+        <Label text="Description:" textFill="#34495e" />
+        <TextArea fx:id="descriptionField" promptText="Description..." wrapText="true" VBox.vgrow="ALWAYS" prefHeight="80.0" />
+
+        <Label text="Product Image:" textFill="#34495e" />
+        <HBox spacing="15.0" alignment="CENTER_LEFT">
+            <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" preserveRatio="true"
+                       style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);" />
+            <Button text="Choose Image" onAction="#onChooseImageClick"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-cursor: hand;" />
+        </HBox>
+    </VBox>
+
+    <HBox spacing="15.0" alignment="CENTER">
+        <Button text="Save" onAction="#onSaveClick" prefWidth="100.0"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
+        <Button text="Cancel" onAction="#onCancelClick" prefWidth="100.0"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" />
+    </HBox>
+
+</VBox>
