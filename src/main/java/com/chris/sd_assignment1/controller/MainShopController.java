@@ -8,6 +8,7 @@ import com.chris.sd_assignment1.model.services.CartService;
 import com.chris.sd_assignment1.model.services.CategoryService;
 import com.chris.sd_assignment1.model.services.ItemService;
 import com.chris.sd_assignment1.model.services.ServiceLocator;
+import com.chris.sd_assignment1.model.export.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +36,7 @@ public class MainShopController {
 
     @FXML private Label welcomeLabel;
     @FXML private Button adminPanelButton;
+    @FXML private Button cartButton;
     @FXML private TextField searchField;
     @FXML private ComboBox<Category> categoryComboBox;
     @FXML private ComboBox<String> sortComboBox;
@@ -45,6 +47,7 @@ public class MainShopController {
     private CategoryService categoryService;
     private CartService cartService;
     private List<Item> allItems;
+    private List<Item> currentViewList;
 
     public void initializeDependencies(User user, ItemService itemService, CategoryService categoryService, CartService cartService) {
         this.currentUser = user;
@@ -59,6 +62,11 @@ public class MainShopController {
 
     private void setupUI() {
         welcomeLabel.setText("Welcome, " + currentUser.getUsername() + "!");
+
+        if (currentUser.getRole() == Role.VISITOR) {
+            cartButton.setDisable(true);
+            cartButton.setOpacity(0.5);
+        }
 
         if (currentUser.getRole() == Role.ADMIN) {
             adminPanelButton.setVisible(true);
@@ -87,6 +95,7 @@ public class MainShopController {
 
     private void loadItems() {
         allItems = itemService.getAllItems();
+        currentViewList = allItems;
         displayItems(allItems);
     }
 
@@ -160,7 +169,7 @@ public class MainShopController {
         Category selectedCategory = categoryComboBox.getValue();
         String sortOption = sortComboBox.getValue();
 
-        List<Item> filteredList = allItems.stream()
+        currentViewList = allItems.stream()
                 .filter(item -> searchText.isEmpty() || item.getName().toLowerCase().contains(searchText))
                 .filter(item -> selectedCategory == null || item.getCategory().getId().equals(selectedCategory.getId()))
                 .collect(Collectors.toList());
@@ -168,24 +177,24 @@ public class MainShopController {
         if (sortOption != null) {
             switch (sortOption) {
                 case "Price: Low to High":
-                    filteredList.sort((i1, i2) -> Double.compare(i1.getFinalPrice(), i2.getFinalPrice()));
+                    currentViewList.sort((i1, i2) -> Double.compare(i1.getFinalPrice(), i2.getFinalPrice()));
                     break;
                 case "Price: High to Low":
-                    filteredList.sort((i1, i2) -> Double.compare(i2.getFinalPrice(), i1.getFinalPrice()));
+                    currentViewList.sort((i1, i2) -> Double.compare(i2.getFinalPrice(), i1.getFinalPrice()));
                     break;
                 case "Name: A to Z":
-                    filteredList.sort((i1, i2) -> i1.getName().compareToIgnoreCase(i2.getName()));
+                    currentViewList.sort((i1, i2) -> i1.getName().compareToIgnoreCase(i2.getName()));
                     break;
                 case "Name: Z to A":
-                    filteredList.sort((i1, i2) -> i2.getName().compareToIgnoreCase(i1.getName()));
+                    currentViewList.sort((i1, i2) -> i2.getName().compareToIgnoreCase(i1.getName()));
                     break;
                 case "Category: A to Z":
-                    filteredList.sort((i1, i2) -> i1.getCategory().getName().compareToIgnoreCase(i2.getCategory().getName()));
+                    currentViewList.sort((i1, i2) -> i1.getCategory().getName().compareToIgnoreCase(i2.getCategory().getName()));
                     break;
             }
         }
 
-        displayItems(filteredList);
+        displayItems(currentViewList);
     }
 
     @FXML
@@ -193,12 +202,12 @@ public class MainShopController {
         searchField.clear();
         categoryComboBox.getSelectionModel().clearSelection();
         sortComboBox.getSelectionModel().select("Default");
+        currentViewList = allItems;
         displayItems(allItems);
     }
 
     @FXML
     protected void onCartClick(ActionEvent event) {
-
         if (currentUser.getRole() == Role.VISITOR) {
             showAlert(Alert.AlertType.WARNING, "Access Denied", "Guests cannot access the shopping cart. Please register or log in.");
             return;
@@ -208,7 +217,6 @@ public class MainShopController {
             Parent root = loader.load();
 
             CartController cartController = loader.getController();
-
             cartController.initializeDependencies(currentUser, itemService, categoryService, cartService);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -216,11 +224,7 @@ public class MainShopController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Navigation Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Could not load the cart page.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Could not load the cart page.");
         }
     }
 
@@ -230,7 +234,7 @@ public class MainShopController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/chris/sd_assignment1/view/login.fxml"));
             Parent root = loader.load();
 
-           ServiceLocator.getInstance().getCartService().clearCart();
+            ServiceLocator.getInstance().getCartService().clearCart();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, 400, 500));
@@ -238,11 +242,7 @@ public class MainShopController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Navigation Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Could not return to login screen.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Could not return to login screen.");
         }
     }
 
@@ -262,22 +262,14 @@ public class MainShopController {
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Navigation Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Could not load the item details.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Could not load the item details.");
         }
     }
 
     @FXML
     protected void onAdminPanelClick(ActionEvent event) {
         if (currentUser.getRole() != Role.ADMIN) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Access Denied");
-            alert.setHeaderText(null);
-            alert.setContentText("You do not have permission to access the Admin Panel.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Access Denied", "You do not have permission to access the Admin Panel.");
             return;
         }
 
@@ -294,11 +286,39 @@ public class MainShopController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Navigation Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Could not load the admin panel.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Could not load the admin panel.");
+        }
+    }
+
+    @FXML
+    protected void onExportCsvClick(ActionEvent event) {
+        executeExport(new CsvExportStrategy(), "shop_inventory");
+    }
+
+    @FXML
+    protected void onExportJsonClick(ActionEvent event) {
+        executeExport(new JsonExportStrategy(), "shop_inventory");
+    }
+
+    @FXML
+    protected void onExportXmlClick(ActionEvent event) {
+        executeExport(new XmlExportStrategy(), "shop_inventory");
+    }
+
+    private void executeExport(ExportStrategy strategy, String filename) {
+        if (currentViewList == null || currentViewList.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Export Error", "No items to export!");
+            return;
+        }
+
+        try {
+            ExportContext context = new ExportContext();
+            context.setStrategy(strategy);
+            context.executeExport(currentViewList, filename);
+            showAlert(Alert.AlertType.INFORMATION, "Export Success", "File saved in your project folder!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Export Failed", "Error exporting data: " + e.getMessage());
         }
     }
 

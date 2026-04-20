@@ -28,7 +28,7 @@
             <Button fx:id="adminPanelButton" text="Admin Panel" visible="false" managed="false"
                     onAction="#onAdminPanelClick"
                     style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" />
-            <Button text="Cart" onAction="#onCartClick"
+            <Button fx:id="cartButton" text="Cart" onAction="#onCartClick"
                     style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-cursor: hand;" />
             <Button text="Logout" onAction="#onLogoutClick"
                     style="-fx-background-color: transparent; -fx-text-fill: #bdc3c7; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-cursor: hand;" />
@@ -57,6 +57,23 @@
 
             <Button text="Clear Filters" maxWidth="Infinity" onAction="#onClearFiltersClick"
                     style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-cursor: hand;" />
+
+            <Region VBox.vgrow="ALWAYS" />
+
+            <Separator />
+
+            <Label text="Export Data" textFill="#2c3e50">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+
+            <Button text="Export CSV" maxWidth="Infinity" onAction="#onExportCsvClick"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;" />
+            <Button text="Export JSON" maxWidth="Infinity" onAction="#onExportJsonClick"
+                    style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-cursor: hand;" />
+            <Button text="Export XML" maxWidth="Infinity" onAction="#onExportXmlClick"
+                    style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-cursor: hand;" />
         </VBox>
     </left>
 

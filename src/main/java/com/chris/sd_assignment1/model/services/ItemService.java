@@ -4,6 +4,8 @@ import com.chris.sd_assignment1.model.entities.Item;
 import com.chris.sd_assignment1.model.entities.Role;
 import com.chris.sd_assignment1.model.entities.User;
 import com.chris.sd_assignment1.model.repository.ItemRepository;
+import com.chris.sd_assignment1.model.events.EventManager;
+import com.chris.sd_assignment1.model.events.ItemEvent;
 
 import java.util.Comparator;
 import java.util.List;
@@ -12,9 +14,11 @@ import java.util.Optional;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final EventManager eventManager;
 
-    public ItemService(ItemRepository itemRepository) {
+    public ItemService(ItemRepository itemRepository, EventManager eventManager) {
         this.itemRepository = itemRepository;
+        this.eventManager = eventManager;
     }
 
     public Item createItem(Item item, User currentUser) {
@@ -22,7 +26,9 @@ public class ItemService {
             throw new SecurityException("Visitors cannot create items.");
         }
         validateItemFields(item);
-        return itemRepository.save(item);
+        Item savedItem = itemRepository.save(item);
+        eventManager.notify(new ItemEvent(ItemEvent.EventType.CREATED, savedItem, currentUser));
+        return savedItem;
     }
 
     public Optional<Item> getItemById(Long id) {
@@ -38,14 +44,18 @@ public class ItemService {
             throw new SecurityException("Visitors cannot update items.");
         }
         validateItemFields(item);
-        return itemRepository.update(item);
+        Item updatedItem = itemRepository.update(item);
+        eventManager.notify(new ItemEvent(ItemEvent.EventType.UPDATED, updatedItem, currentUser));
+        return updatedItem;
     }
 
     public void deleteItem(Long id, User currentUser) {
         if (currentUser.getRole() != Role.ADMIN) {
             throw new SecurityException("Only administrators can delete items.");
         }
+        Item itemToDelete = itemRepository.findById(id).orElse(null);
         itemRepository.deleteById(id);
+        eventManager.notify(new ItemEvent(ItemEvent.EventType.DELETED, itemToDelete, currentUser));
     }
 
     public List<Item> getItemsByCategory(Long categoryId) {
